@@ -18,4 +18,5 @@ The idea is to have a series of static effects that can stay on while driving an
 - // Fade
 - // Marquee
 - // Circular
-- Sequential
+- // Converge (Sequential fill from the ends to the middle)
+- // Diverge (Sequential fill from the middle to the ends)
