@@ -18,5 +18,7 @@ The idea is to have a series of static effects that can stay on while driving an
 - // Fade
 - // Marquee
 - // Circular
-- // Converge (Sequential fill from the ends to the middle)
-- // Diverge (Sequential fill from the middle to the ends)
+- Converge (Sequential fill from the ends to the middle)
+- Diverge (Sequential fill from the middle to the ends)
+- Twinkle (Turns on random LEDs on the strip)
+- Rainbow Twinkle (Same as above but with random colors)
