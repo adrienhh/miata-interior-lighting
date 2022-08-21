@@ -63,6 +63,8 @@ void diverge_rgb(uint8_t r, uint8_t g, uint8_t b, uint rate){
         LED_STRIP[i] = CRGB(r, g, b);
         LED_STRIP[j] = CRGB(r, g, b);
         FastLED.show();
+        i--;
+        j++;
         delay(rate);
     }
 }
