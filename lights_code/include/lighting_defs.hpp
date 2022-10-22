@@ -14,7 +14,6 @@ class BaseLightingEffect {
 public:
     BaseLightingEffect(CRGB* data, uint nLeds): data(data), 
         nLeds(nLeds){
-
     }
 
     // calculates the next frame of the effect. DOES NOT UPDATE DISPLAY
