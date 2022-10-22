@@ -9,13 +9,17 @@ public:
 
     virtual void update();
 
+    virtual void reset();
+
 protected:
     CRGB color;
     uint speed;
     uint fade_amt;
     uint trail_size;
+    uint start_pos;
+    int8_t start_dir;
     uint pos;
-    int8_t dir;
+    int8_t dir;     // 1 for increasing array, -1 for decreasing
 };
 
 // Gradually fills the array with a color

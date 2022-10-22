@@ -15,6 +15,7 @@ public:
             this->data[i] = this->color;
         }
     }
+
 protected:
     CRGB color;
 };
