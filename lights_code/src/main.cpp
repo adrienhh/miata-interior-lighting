@@ -14,30 +14,26 @@ void setup() {
     #endif
     randomSeed(analogRead(0));
     init_matrix();
-    //SolidFill startEffect(LED_STRIP, NUM_LEDS, CRGB(120, 0, 255));
-    //startEffect.update();
-    //FastLED.show();
-    //delay(500);
-    //FastLED.clear();
-    SequentialFill sqf(LED_STRIP, 64, CRGB(0, 0, 255), 20);
-    SequentialFill sqf2(LED_STRIP, 64, CRGB(120, 0, 0), 20, -1);
+
+    BaseSequential sqf(LED_STRIP, 150, CRGB(0, 0, 255), 20, 64, 5, 0, 1);
+    BaseSequential sqf2(LED_STRIP + 150, 150, CRGB(120, 0, 0), 20, 64, 5, 149, -1);
     for (int i = 0; i < NUM_LEDS; i++){
         sqf.update();
         sqf2.update();
         FastLED.show();
-        delay(50);
+        delay(10);
     }
 }
 
 
 void loop() {
-    int num_effects = 3;
+    int num_effects = 2;
     BaseLightingEffect* effects[num_effects];
     int dir = 1;
-    SolidFill* sqf_ptr = new SolidFill(LED_STRIP, 64, CRGB(0, 0, 0));
-    effects[0] = sqf_ptr;
-    for (int i = 1; i < num_effects; i++){
-        BaseSequential* sqf_ptr = new BaseSequential(LED_STRIP, 64, CRGB(100, 0, 255), 20, 64, 4, (i-1) * 63, dir);
+    // SolidFill* sqf_ptr = new SolidFill(LED_STRIP, 300, CRGB(32, 0, 64));
+    // effects[0] = sqf_ptr;
+    for (int i = 0; i < num_effects; i++){
+        BaseSequential* sqf_ptr = new BaseSequential(LED_STRIP + i * 150, 150, CRGB(160, 0, 255), 20, 64, 6, i * 149, dir);
         effects[i] = sqf_ptr;
         dir *= -1;
     }
@@ -53,6 +49,6 @@ void loop() {
             }
         }
         FastLED.show();
-        delay(100);  // did not implement rate yet
+        delay(75);  // did not implement rate yet
     }
 }
