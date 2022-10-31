@@ -11,14 +11,18 @@ The LEDs are controlled by an ESP32 dev board at the moment as I have no circuit
 
 ## Lighting Effects
 The idea is to have a series of static effects that can stay on while driving and dynamic effects that trigger when the car turns on (as it should not be a distraction to anyone).  
+
+Code currently allows for "blending of effects" in a layer system like for picture editing (an effect can be played over another). For more info about the code, read the `README.md` file inside `lights_code`.  
+
 (// Denotes "Not Implemented")
 
 - Solid
-- Blink
+- // Pulse
 - // Fade
 - // Marquee
 - // Circular
-- Converge (Sequential fill from the ends to the middle)
-- Diverge (Sequential fill from the middle to the ends)
-- Twinkle (Turns on random LEDs on the strip)
-- Rainbow Twinkle (Same as above but with random colors)
+- SequentialFade
+- // Comet
+- // Bounce
+- // Twinkle (Turns on random LEDs on the strip)
+- // Rainbow Twinkle (Same as above but with random colors)

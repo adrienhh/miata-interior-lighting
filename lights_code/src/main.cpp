@@ -19,8 +19,8 @@ void setup() {
     //FastLED.show();
     //delay(500);
     //FastLED.clear();
-    SequentialFill sqf(LED_STRIP, 64, CRGB(0, 0, 255), 20);
-    SequentialFill sqf2(LED_STRIP, 64, CRGB(120, 0, 0), 20, -1);
+    BaseSequential sqf(LED_STRIP, 32, CRGB(0, 0, 255), 20, 64, 5, 0, 1);
+    BaseSequential sqf2(LED_STRIP + 32, 32, CRGB(120, 0, 0), 20, 64, 5, 31, -1);
     for (int i = 0; i < NUM_LEDS; i++){
         sqf.update();
         sqf2.update();
