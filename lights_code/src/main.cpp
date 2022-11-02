@@ -37,7 +37,7 @@ void loop() {
     SolidFill* sqf_ptr = new SolidFill(LED_STRIP, 64, CRGB(0, 0, 0));
     effects[0] = sqf_ptr;
     for (int i = 1; i < num_effects; i++){
-        BaseSequential* sqf_ptr = new BaseSequential(LED_STRIP, 64, CRGB(100, 0, 255), 20, 64, 4, (i-1) * 63, dir);
+        SequentialBounce* sqf_ptr = new SequentialBounce(LED_STRIP, 64, CRGB(100, 0, 255), 20, 64, 4, (i-1) * 63, dir);
         effects[i] = sqf_ptr;
         dir *= -1;
     }
