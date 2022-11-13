@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "sequential_e.hpp"
+#include "twinkle.hpp"
 #include "solid_fill.hpp"
 
 // #define DEBUG
@@ -39,6 +40,8 @@ void loop() {
     for (int i = 1; i < num_effects; i++){
         SequentialBounce* sqf_ptr = new SequentialBounce(LED_STRIP, 64, CRGB(100, 0, 255), 20, 64, 4, (i-1) * 63, dir);
         effects[i] = sqf_ptr;
+        // Twinkle* twkl_ptr = new Twinkle(LED_STRIP, 64, CRGB(120, 0, 255), -1, 32, true);
+        // effects[i] = twkl_ptr;
         dir *= -1;
     }
 
@@ -46,7 +49,7 @@ void loop() {
         // sqf.update();
         for (int i = 0; i < num_effects; i++){
             effects[i]->update();
-            FastLED.show();
+            //FastLED.show();
 
             if (effects[i]->get_status() == DONE){
                 effects[i]->reset();
