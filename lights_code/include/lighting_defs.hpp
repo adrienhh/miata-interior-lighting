@@ -35,8 +35,28 @@ public:
 
 protected:
     CRGB* data;             // section of array this effect will be using
-    uint nLeds;             // number of LEDs of the array above
+    uint32_t nLeds;         // number of LEDs of the array above
     EffectStatus status;    // status of current lighting effect
+};
+
+// Abstract base class for animated lighting effect that require delays
+class BaseAnimatedEffect: public BaseLightingEffect{
+public:
+    BaseAnimatedEffect(CRGB* data, uint32_t nLeds, uint32_t delay);
+
+    inline void update();
+
+    // calculate the delay between the calling frame
+    // and the frame the effect was last calculated
+    bool update_ready();
+
+protected:
+    virtual void update_pos(){
+
+    }
+
+    uint32_t last_update;
+    uint32_t delay;
 };
 
 void init_matrix();

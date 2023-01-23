@@ -1,18 +1,18 @@
-#ifndef SEQUENTIAL_EFFECTS_H
-#define SEQUENTIAL_EFFECTS_H
+#ifndef SEQUENTIAL_EFFECTS_HPP
+#define SEQUENTIAL_EFFECTS_HPP
 
 #include "lighting_defs.hpp"
 
-class BaseSequential: public BaseLightingEffect{
+class BaseSequential: public BaseAnimatedEffect{
 public:
-    BaseSequential(CRGB* data, uint nLeds, CRGB color, uint speed, uint fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1);
+    BaseSequential(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1);
 
-    virtual void update();
     virtual void reset();
 
 protected:
+    virtual void update_pos();
+
     CRGB color;
-    uint speed;
     uint fade_amt;
     uint trail_size;
     uint start_pos;
@@ -22,19 +22,20 @@ protected:
 
 class SequentialBounce: public BaseSequential{
 public:
-    SequentialBounce(CRGB* data, uint nLeds, CRGB color, uint speed, uint fade_amt, uint trail_size, uint start_pos=0, int8_t start_dir=1);
+    SequentialBounce(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint fade_amt, uint trail_size, uint start_pos=0, int8_t start_dir=1);
 
-    void update();
     void reset();
 
 protected:
+    void update_pos();
+
     int8_t start_dir;   // keep track of set direction for resetting
 };
 
 // Sequential fade but the fade amt is random
 class SequentialComet: public BaseSequential{
 public:
-    SequentialComet(CRGB* data, uint nLeds, CRGB color, uint speed, uint fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1);
+    SequentialComet(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1);
 
     void update();
     void reset();

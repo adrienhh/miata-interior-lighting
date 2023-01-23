@@ -17,12 +17,12 @@ Code currently allows for "blending of effects" in a layer system like for pictu
 (// Denotes "Not Implemented")
 
 - Solid
-- // Pulse
-- // Fade
+- Pulse (Has some hardware issue with WS2812B cannot dim slowly towards lower brightness without flickering)
+- Fade  (Only fade between two colors supported now)
 - // Marquee
-- // Circular
 - SequentialFade
+- SequentialBounce
 - // Comet
 - // Bounce
-- // Twinkle (Turns on random LEDs on the strip)
+- Twinkle (Turns on random LEDs on the strip)
 - // Rainbow Twinkle (Same as above but with random colors)

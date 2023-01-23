@@ -1,10 +1,9 @@
 #include "sequential_e.hpp"
 
 // BaseSequential definitions
-BaseSequential::BaseSequential(CRGB* data, uint nLeds, CRGB color, uint speed, uint fade_amt, uint trail_size, uint start_pos, int8_t start_dir):
-    BaseLightingEffect(data, nLeds),
+BaseSequential::BaseSequential(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint fade_amt, uint trail_size, uint start_pos, int8_t start_dir):
+    BaseAnimatedEffect(data, nLeds, delay),
     color(color),
-    speed(speed),
     fade_amt(fade_amt),
     trail_size(trail_size),
     start_pos(start_pos),
@@ -12,11 +11,12 @@ BaseSequential::BaseSequential(CRGB* data, uint nLeds, CRGB color, uint speed, u
     dir(start_dir) {
 }
 
-void BaseSequential::update(){
+void BaseSequential::update_pos(){
     // update status
     if (status == DONE)
         return;
     if ( pos >= nLeds || pos < 0){     // either when the object was set incorrectly or effect is done playing
+        // need to update the last items in the array
         status = DONE;
         return;
     }
@@ -45,7 +45,7 @@ SequentialBounce::SequentialBounce(CRGB* data, uint nLeds, CRGB color, uint spee
 
 }
 
-void SequentialBounce::update(){
+void SequentialBounce::update_pos(){
     // update status
     if (status == READY)
         status = PLAYING;

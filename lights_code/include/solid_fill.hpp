@@ -5,7 +5,7 @@
 
 class SolidFill: public BaseLightingEffect{
 public:
-    SolidFill(CRGB* data, uint nLeds, CRGB color): BaseLightingEffect(data, nLeds), 
+    SolidFill(CRGB* data, uint32_t nLeds, CRGB color): BaseLightingEffect(data, nLeds), 
         color(color) {
 
     }

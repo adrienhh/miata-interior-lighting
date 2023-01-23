@@ -1,9 +1,8 @@
 #include "twinkle.hpp"
 
-Twinkle::Twinkle(CRGB* data, uint nLeds, CRGB color, uint speed, uint max_particle_count, bool overlap):
-    BaseLightingEffect(data, nLeds),
+Twinkle::Twinkle(CRGB* data, uint nLeds, CRGB color, uint32_t delay, uint max_particle_count, bool overlap):
+    BaseAnimatedEffect(data, nLeds, delay),
     color(color),
-    speed(speed),
     particle_count(0),
     max_particle_count(max_particle_count),
     overlap(overlap) {

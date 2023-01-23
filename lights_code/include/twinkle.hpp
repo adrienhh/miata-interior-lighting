@@ -3,9 +3,9 @@
 
 #include "lighting_defs.hpp"
 
-class Twinkle: public BaseLightingEffect{
+class Twinkle: public BaseAnimatedEffect{
 public:
-    Twinkle(CRGB* data, uint nLeds, CRGB color, uint speed, uint max_particle_count, bool overlap=true);
+    Twinkle(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint max_particle_count, bool overlap=true);
 
     ~Twinkle();
 
@@ -15,7 +15,6 @@ public:
 
 protected:
     CRGB color;
-    uint speed;
     uint* pixel_array;              // array that keeps track of the position pixels were placed at
     uint particle_count;
     uint max_particle_count;
