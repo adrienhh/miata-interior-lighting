@@ -5,6 +5,7 @@
 
 #define LED_PIN 13
 #define NUM_LEDS 64
+#define NUM_EFFECTS 4
 
 #define CHIP_SET WS2812B
 #define COLOR_CODE GRB
@@ -17,46 +18,36 @@ enum EffectStatus{
 };
 
 // Abstract Base class for all lighting effects
-class BaseLightingEffect {
+class AnimatedLightingEffect {
 public:
-    BaseLightingEffect(CRGB* data, uint nLeds);
+    AnimatedLightingEffect(CRGB* data, uint nLeds, CRGB color, uint32_t delay);
 
-    // calculates the next frame of the effect. DOES NOT UPDATE DISPLAY
-    virtual void update(){
+    // calls update() if and only if delay (ms) has spanned since last call
+    void update_after_delay();
 
-    }
+    // pushes the current state of the animation (object) to the data array
+    virtual void draw_frame() = 0;
 
     // Allows us to replay an effect by resetting it
-    virtual void reset(){
-
-    }
+    virtual void reset() = 0;
 
     EffectStatus get_status();
 
 protected:
-    CRGB* data;             // section of array this effect will be using
-    uint32_t nLeds;         // number of LEDs of the array above
-    EffectStatus status;    // status of current lighting effect
-};
+    // updated the animation by a frame. DOES NOT UPDATE DISPLAY
+    virtual void update_frame() = 0;
 
-// Abstract base class for animated lighting effect that require delays
-class BaseAnimatedEffect: public BaseLightingEffect{
-public:
-    BaseAnimatedEffect(CRGB* data, uint32_t nLeds, uint32_t delay);
+    virtual void update_status() = 0;
 
-    inline void update();
-
-    // calculate the delay between the calling frame
-    // and the frame the effect was last calculated
     bool update_ready();
 
-protected:
-    virtual void update_pos(){
-
-    }
-
-    uint32_t last_update;
-    uint32_t delay;
+    // data members
+    CRGB* data;             // section of array this effect will be using
+    uint32_t nLeds;         // number of LEDs of the array above
+    CRGB color;             // RGB representation of the saved color
+    EffectStatus status;    // status of current lighting effect
+    uint32_t last_update;   // number to represent last time the frame was updated
+    uint32_t delay;         // set delay between frames in the animation
 };
 
 void init_matrix();

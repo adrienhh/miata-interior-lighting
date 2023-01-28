@@ -2,34 +2,26 @@
 
 CRGB LED_STRIP[NUM_LEDS];
 
-// BaseLightingEffect method definitions
-BaseLightingEffect::BaseLightingEffect(CRGB* data, uint nLeds):
+// AnimatedLightingEffect method definitions
+AnimatedLightingEffect::AnimatedLightingEffect(CRGB* data, uint nLeds, CRGB color, uint32_t delay):
     data(data), 
     nLeds(nLeds),
+    color(color),
+    delay(delay),
+    last_update(0),
     status(READY) {
 }
 
-EffectStatus BaseLightingEffect::get_status(){
-    #ifdef DEBUG
-    // printf("get_status() -> %d\n", status);
-    #endif
-    return status;
-}
-
-// BaseAnimatedEffects method definitions
-BaseAnimatedEffect::BaseAnimatedEffect(CRGB* data, uint32_t nLeds, uint32_t delay):
-    BaseLightingEffect(data, nLeds),
-    delay(delay),
-    last_update(0){
-}
-
-inline void BaseAnimatedEffect::update(){
+void AnimatedLightingEffect::update_after_delay(){
     if (update_ready()){
-        update_pos();
+        update_status();
+        if (status != DONE){
+            update_frame();
+        }
     }
 }
 
-bool BaseAnimatedEffect::update_ready(){
+bool AnimatedLightingEffect::update_ready(){
     uint32_t cur_time = millis();
 
     if (cur_time - last_update > delay){
@@ -45,6 +37,13 @@ bool BaseAnimatedEffect::update_ready(){
         #endif
         return false;
     }
+}
+
+EffectStatus AnimatedLightingEffect::get_status(){
+    #ifdef DEBUG
+    // printf("get_status() -> %d\n", status);
+    #endif
+    return status;
 }
 
 void init_matrix(){
