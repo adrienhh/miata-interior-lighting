@@ -7,10 +7,6 @@
 #include "solid_fill.hpp"
 #include "twinkle.hpp"
 
-void thread_init_effects(void* _);
-
-void thread_update_strip(void* _);
-
-void thread_update_animations(void* _);
+void thread_process_animations(void* _);
 
 #endif

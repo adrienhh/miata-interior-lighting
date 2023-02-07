@@ -5,7 +5,6 @@
 
 #define LED_PIN 13
 #define NUM_LEDS 64
-#define NUM_EFFECTS 4
 
 #define CHIP_SET WS2812B
 #define COLOR_CODE GRB
@@ -23,7 +22,7 @@ public:
     AnimatedLightingEffect(CRGB* data, uint nLeds, CRGB color, uint32_t delay);
 
     // calls update() if and only if delay (ms) has spanned since last call
-    void update_after_delay();
+    void update_after_delay(uint32_t cur_time);
 
     // pushes the current state of the animation (object) to the data array
     virtual void draw_frame() = 0;
@@ -34,12 +33,17 @@ public:
     EffectStatus get_status();
 
 protected:
+    struct PixelVal{
+        uint32_t pos;
+        CRGB val;
+    };
+
     // updated the animation by a frame. DOES NOT UPDATE DISPLAY
     virtual void update_frame() = 0;
 
     virtual void update_status() = 0;
 
-    bool update_ready();
+    bool update_ready(uint32_t cur_time);
 
     // data members
     CRGB* data;             // section of array this effect will be using
