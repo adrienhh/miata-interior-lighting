@@ -24,6 +24,16 @@ void BaseSequential::update_status(){
 }
 
 void BaseSequential::update_frame(){
+    #ifdef DEBUG
+    CRGB temp_color = color;
+    uint16_t count = 0;
+    for (uint16_t i = pos; count < trail_size && i >= 0 && i < nLeds; i -= dir){
+        printf("pixel %d = ", i);
+        printCRGB(temp_color);
+        temp_color.fadeToBlackBy(fade_amt);
+        count++;
+    }
+    #endif
     pos += dir;
 }
 
@@ -31,7 +41,8 @@ void BaseSequential::draw_frame(){
     uint16_t count = 0;
     CRGB temp_color = color;
     for (uint16_t i = pos; count < trail_size && i >= 0 && i < nLeds; i -= dir){
-        data[i] = temp_color.fadeToBlackBy(fade_amt);
+        data[i] = temp_color;
+        temp_color.fadeToBlackBy(fade_amt);
         count ++;
     }
     data[pos] = color;
@@ -68,7 +79,8 @@ void SequentialBounce::draw_frame(){
     uint16_t count = 0;
     CRGB temp_color = color;
     for (int i = pos; count <= trail_size && i >= 0 && i < nLeds; i -= dir){
-        data[i] = temp_color.fadeToBlackBy(fade_amt);
+        data[i] = temp_color;
+        temp_color.fadeToBlackBy(fade_amt);
         count++;
     }
     data[pos] = color;
@@ -82,9 +94,10 @@ void SequentialBounce::reset(){
 
 
 // TODO: SequentialComet definitions
-SequentialComet::SequentialComet(CRGB* data, uint nLeds, CRGB color, uint32_t delay, uint8_t fade_amt, uint trail_size, uint start_pos, int8_t dir):
-    BaseSequential(data, nLeds, color, delay, fade_amt, trail_size, start_pos, dir)
-    //trail_brightness_queue(CircularQueue(trail_size)){
+SequentialComet::SequentialComet(CRGB* data, uint nLeds, CRGB color, uint32_t delay, uint8_t fade_amt, uint trail_size, uint start_pos, int8_t dir, uint8_t fade_rate):
+    BaseSequential(data, nLeds, color, delay, fade_amt, trail_size, start_pos, dir),
+    fade_rate(fade_rate)
+    //trail_color_queue(CircularQueue(trail_size)){
     {
 }
 
@@ -94,65 +107,61 @@ SequentialComet::~SequentialComet(){
 
 void SequentialComet::draw_frame(){
     if (dir == 1){
-        for (int i = pos - (trail_brightness_queue.size() * dir); i < pos; i++){
+        for (int i = pos - (trail_color_queue.size() * dir); i < pos; i++){
             draw_trail(i);
         }
     } 
     else{
-        for (int i = pos + trail_brightness_queue.size(); i > pos; i--){
+        for (int i = pos + trail_color_queue.size(); i > pos; i--){
             draw_trail(i);
         }
     }
 }
 
 void SequentialComet::draw_trail(uint32_t index){
-    CRGB temp_color = color;
     // CHSV temp_color = rgb2hsv_approximate(color);
-    uint8_t fade_val = trail_brightness_queue.front();
-    trail_brightness_queue.pop();
+    CRGB temp_color = trail_color_queue.front();
+    trail_color_queue.pop();
 
     // temp_color.value = 255 - fade_val;
-    // data[index] = temp_color;
-    data[index] = temp_color.fadeToBlackBy(fade_val);
-    // data[index] = temp_color.nscale8(fade_val);
+
+    data[index] = temp_color;
     
-    trail_brightness_queue.push(fade_val);
+    trail_color_queue.push(temp_color);
 }
 
 void SequentialComet::update_frame(){
     #ifdef DEBUG
-    uint16_t temp_len = trail_brightness_queue.size();
+    uint16_t temp_len = trail_color_queue.size();
     for (int i = 0; i < temp_len; i++){
-        uint16_t fade_val = trail_brightness_queue.front();
-        trail_brightness_queue.pop();
-        printf("trail_brightness_queue[%d] = %d\n", i, fade_val);
-        trail_brightness_queue.push(fade_val);
+        CRGB temp_color = trail_color_queue.front();
+        trail_color_queue.pop();
+        printf("trail_color_queue[%d] = ", i);
+        printCRGB(temp_color);
+        trail_color_queue.push(temp_color);
     }
     #endif
     pos += dir;
-    uint16_t qlen = trail_brightness_queue.size();
+    uint16_t qlen = trail_color_queue.size();
     for (int i = 0; i < qlen; i++){
-        uint16_t fade_val = trail_brightness_queue.front();
-        trail_brightness_queue.pop();
-        if (random(2) == 1){
-            fade_val += fade_amt;
-            if (fade_val > 255){
-                fade_val = 255;
-            }
+        CRGB temp_color = trail_color_queue.front();
+        trail_color_queue.pop();
+        if (random(fade_rate) != 0){
+            temp_color = temp_color.fadeToBlackBy(fade_amt);
         }
         if (qlen != trail_size || i != 0){
-            trail_brightness_queue.push(fade_val);
+            trail_color_queue.push(temp_color);
         }
     }
 
-    trail_brightness_queue.push(0);
+    trail_color_queue.push(color);
 }
 
 void SequentialComet::reset(){
     status = READY;
     pos = start_pos;
-    while (trail_brightness_queue.empty() != true){
-        trail_brightness_queue.pop();
+    while (trail_color_queue.empty() != true){
+        trail_color_queue.pop();
     }
 }
 

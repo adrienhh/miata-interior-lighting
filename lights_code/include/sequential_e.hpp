@@ -104,7 +104,7 @@ private:
 // Sequential fade but the fade amt is random
 class SequentialComet: public BaseSequential{
 public:
-    SequentialComet(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint8_t fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1);
+    SequentialComet(CRGB* data, uint32_t nLeds, CRGB color, uint32_t delay, uint8_t fade_amt, uint trail_size, uint start_pos=0, int8_t dir=1, uint8_t fade_rate=2);
     ~SequentialComet();
 
     void draw_frame();
@@ -115,7 +115,8 @@ protected:
     void draw_trail(uint32_t index);
 
     //CircularQueue trail_brightness_queue;
-    std::queue<uint8_t> trail_brightness_queue;
+    std::queue<CRGB> trail_color_queue;
+    uint8_t fade_rate;
 
 };
 

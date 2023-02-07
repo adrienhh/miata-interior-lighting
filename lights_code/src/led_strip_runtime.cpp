@@ -16,11 +16,15 @@ void thread_process_animations(void* _){
     effects[0] = sf_ptr;
     for (int i = 1; i < num_effects; i++){
         if (i > 1){
-            //BaseSequential* sqf_ptr = new BaseSequential(LED_STRIP, 64, CRGB(100, 0, 255), 64, 128, 5, (63 * (i-2)), dir);
-            SequentialComet* sqf_ptr = new SequentialComet(LED_STRIP, 64, CRGB(100, 0, 255), 64, 90, 8, (63 * (i-2)), dir);
+            //BaseSequential* sqf_ptr = new BaseSequential(LED_STRIP, 64, CRGB(100, 0, 255), 64, 128, 8, (63 * (i-2)), dir);
+            SequentialComet* sqf_ptr = new SequentialComet(LED_STRIP, 64, CRGB(100, 0, 255), 100, 170, 8, (63 * (i-2)), dir, 4);
             effects[i] = sqf_ptr;
             dir *= -1;
         }
+        // else if (i == 3){
+        //     SequentialComet* sqf_ptr = new SequentialComet(LED_STRIP, 64, CRGB(100, 0, 255), 64, 128, 8, (63 * (i-2)), dir, 4);
+        //     effects[i] = sqf_ptr;
+        // }
         else{
             Twinkle* t_ptr = new Twinkle(LED_STRIP, 64, CRGB(0, 50, 0), 500, 16);
             effects[i] = t_ptr;

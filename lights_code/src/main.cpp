@@ -2,8 +2,8 @@
 #include "freertos/task.h"
 #include "led_strip_runtime.hpp"
 
-#define DEBUG
-#define BAUDRATE 9600
+// #define DEBUG
+// #define BAUDRATE 9600
 
 void setup() {
     // put your setup code here, to run once:

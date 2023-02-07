@@ -35,10 +35,14 @@ EffectStatus AnimatedLightingEffect::get_status(){
     return status;
 }
 
+void AnimatedLightingEffect::printCRGB(CRGB c){
+    printf("CRGB(%d, %d, %d)\n", c.r, c.g, c.b);
+}
+
 void init_matrix(){
     pinMode(LED_PIN, OUTPUT);
     FastLED.addLeds<CHIP_SET, LED_PIN, COLOR_CODE>(LED_STRIP, NUM_LEDS);
-    FastLED.setBrightness(64);
-    FastLED.setMaxPowerInVoltsAndMilliamps(5, 600);
+    FastLED.setBrightness(128);
+    FastLED.setMaxPowerInVoltsAndMilliamps(5, 800);
     FastLED.clear();
 }

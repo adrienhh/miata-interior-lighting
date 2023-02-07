@@ -45,6 +45,8 @@ protected:
 
     bool update_ready(uint32_t cur_time);
 
+    void printCRGB(CRGB c);
+
     // data members
     CRGB* data;             // section of array this effect will be using
     uint32_t nLeds;         // number of LEDs of the array above
